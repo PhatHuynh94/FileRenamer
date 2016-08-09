@@ -12,14 +12,18 @@ namespace FileRenamer
 
        static int argCheck(string[] args) 
        {
+            //if the file is executed by itself
+            if (args.Length == 0)
+                return 0;
+            
             //if only uses -name and
-            if (args.Length == 2 && args[0].Equals("-name"))
+            else if (args.Length == 2 && args[0].Equals("-name"))
                 return 1;
 
             //if the user uses -name and -path are used and the directory exists
             else if (args.Length == 4 && args[0].Equals("-path") && Directory.Exists(args[1]) && args[2].Equals("-name"))
                 return 2;
-         
+
             //if incorrect number of arguments are given or file directory does not exist
             else
                 return -1;
@@ -42,18 +46,15 @@ namespace FileRenamer
                 newName = rename(fileEntries[i], commonName, i);
 
                 //if the file already exist increases the number after the file name until it is a name that does not exist
-                if (File.Exists(newName))
+                while (File.Exists(newName))
                 {
                     newName = rename(fileEntries[i], commonName, i + counter);
                     counter++;
                 }
-                else
-                {
-                    counter = 0;
+                counter = 0;
 
-                    //renaming the file
-                    File.Move(fileEntries[i], newName);
-                }
+                //renaming the file
+                File.Move(fileEntries[i], newName);
             }
 
             //number of files after
@@ -74,15 +75,9 @@ namespace FileRenamer
             ext = oldName.Substring(index + 1);
             dir = Path.GetDirectoryName(oldName) + '\\';
 
-
-            if (fileNum >= 0 && fileNum < 10)
-                numExt = "000" + fileNum.ToString();
-            else if (fileNum >= 10 && fileNum < 100)
-                numExt = "00" + fileNum.ToString();
-            else if (fileNum >= 100 && fileNum < 1000)
-                numExt = "0" + fileNum.ToString();
-            else
-                numExt = fileNum.ToString();
+            //makes sure that all files stay in the current order
+            //only works if there are less than 1000000 files in the folder
+            numExt = fileNum.ToString("D6");
 
             //renames the file
             newName = dir + '\\' + commonName + "-" + numExt + '.' + ext;
@@ -92,11 +87,28 @@ namespace FileRenamer
         static void Main(string[] args)
         {
             int argNum = argCheck(args);
-           
-            if (argNum ==  1)
+            string dirPath, commonName;
+
+            if(argNum == 0)
             {
-                string currentDir = Directory.GetCurrentDirectory();
-                processDir(currentDir, args[1]);
+                Console.Write("Enter the directory Path: ");
+                dirPath = Console.ReadLine();
+
+                if(string.IsNullOrWhiteSpace(dirPath))
+                    dirPath = Directory.GetCurrentDirectory();
+
+                Console.Write("Enter the common name: ");
+                commonName = Console.ReadLine();
+
+                processDir(dirPath, commonName);
+
+                Console.WriteLine("Press Any key to exit.");
+                Console.ReadKey();
+            }
+            else if (argNum ==  1)
+            {
+                dirPath = Directory.GetCurrentDirectory();
+                processDir(dirPath, args[1]);
             }
             else if(argNum == 2)
             {
