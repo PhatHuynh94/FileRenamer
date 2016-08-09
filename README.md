@@ -1,4 +1,3 @@
-# FileRenamer
 Renames all files in a directory to a common name. Can be used via command line or double click on .exe file
 
 If using normal execution method:
