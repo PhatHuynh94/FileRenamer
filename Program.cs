@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,9 +31,10 @@ namespace FileRenamer
 
             string newName;
             string[] fileEntries = Directory.GetFiles(path);
-            int counter = 0;
+            int counter = 1;
  
             Console.WriteLine("\nThis folder started with {0} file(s)\n", fileEntries.Length);
+
 
             for(int i = 0; i < fileEntries.Length; i++)
             {
@@ -41,15 +42,18 @@ namespace FileRenamer
                 newName = rename(fileEntries[i], commonName, i);
 
                 //if the file already exist increases the number after the file name until it is a name that does not exist
-                while(File.Exists(newName))
+                if (File.Exists(newName))
                 {
-                    counter++;
                     newName = rename(fileEntries[i], commonName, i + counter);
+                    counter++;
                 }
-                counter = 0;
+                else
+                {
+                    counter = 0;
 
-                //renaming the file
-                File.Move(fileEntries[i], newName);
+                    //renaming the file
+                    File.Move(fileEntries[i], newName);
+                }
             }
 
             //number of files after
@@ -57,30 +61,41 @@ namespace FileRenamer
             Console.WriteLine("This folder now contains {0} file(s)\n", fileEntries.Length);
         }
 
-        static string rename(string oldName, string commonName, int picNum)
+        static string rename(string oldName, string commonName, int fileNum)
         {
             //dir - contains the file's current directory
             //ext -  contains file extention
+            //numExt - the file number
             //newName - new name for the file
-            string dir, ext, newName;
+            string dir, ext, numExt, newName;
 
             //puts all separate parts of the file name into a string field
-            ext = oldName.Split('.')[1];
+            int index = oldName.LastIndexOf('.');
+            ext = oldName.Substring(index + 1);
             dir = Path.GetDirectoryName(oldName) + '\\';
 
+
+            if (fileNum >= 0 && fileNum < 10)
+                numExt = "000" + fileNum.ToString();
+            else if (fileNum >= 10 && fileNum < 100)
+                numExt = "00" + fileNum.ToString();
+            else if (fileNum >= 100 && fileNum < 1000)
+                numExt = "0" + fileNum.ToString();
+            else
+                numExt = fileNum.ToString();
+
             //renames the file
-            newName = dir + '\\' + commonName + picNum.ToString() + '.' + ext;
+            newName = dir + '\\' + commonName + "-" + numExt + '.' + ext;
             return newName;
         }
 
         static void Main(string[] args)
         {
             int argNum = argCheck(args);
-            string currentDir;
            
             if (argNum ==  1)
             {
-                currentDir = Directory.GetCurrentDirectory();
+                string currentDir = Directory.GetCurrentDirectory();
                 processDir(currentDir, args[1]);
             }
             else if(argNum == 2)
