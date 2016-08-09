@@ -7,6 +7,7 @@ Enter the directory path in the first prompt. Enter the common name at the secon
 If using via command line method:
 
 There are two commands -name and -path.
+
 -name is the common name for the files. Needs to be used while excuting program
 
 -path is the directory path. Does not need to be used while excuting program
