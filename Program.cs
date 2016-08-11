@@ -39,13 +39,15 @@ namespace FileRenamer
             if(File.Exists(programName))
                 fileNames.Remove(programName);
 
+            fileNames.Sort();
+
             //count the files in at the start of the process
             Console.WriteLine("There are {0} file(s) in the folder", fileNames.Count);
         }
 
         static void rename(List<string> fileNames, string path, string commonName)
         {
-            string name, ext;
+            string name, ext, tempName;
             int count = 1;
 
             for(int i = 0; i < fileNames.Count; i++)
@@ -63,14 +65,20 @@ namespace FileRenamer
                 }
                 else
                 {
-                    //check to see if this file name will conflict with anyother file name if it does gives it a new name.
+                    //check to see if this file name will conflict with any other file name.
+                    //if there is conflict it will rename the other file temporarily
                     for (int j = 0; j < fileNames.Count; j++)
                     {
                         if (name.Equals(Path.GetFileNameWithoutExtension(fileNames[j])))
                         {
-                            count++;
-                            name = commonName + count.ToString("D5");
-                            j = 0;
+                            tempName = path + '\\' + Path.GetFileNameWithoutExtension(fileNames[j]) + "(copy)" + Path.GetExtension(fileNames[j]);
+                            File.Copy(fileNames[j],tempName);
+                            File.Delete(fileNames[j]);
+                            fileNames[j] = tempName;
+
+                            //count++;
+                            //name = commonName + count.ToString("D5");
+                            //j = 0;
                         }
                     }
 
@@ -103,6 +111,12 @@ namespace FileRenamer
                     Console.Write("Enter the directory Path: ");
                     dirPath = Console.ReadLine();
 
+                    if(!Directory.Exists(dirPath))
+                    {
+                        Console.WriteLine("Directory does not exist. Please try Again.");
+                        continue;
+                    }
+
                     //If the user enters nothing program uses the directory that the exe is in.
                     if (string.IsNullOrWhiteSpace(dirPath))
                         dirPath = Directory.GetCurrentDirectory();
@@ -120,12 +134,13 @@ namespace FileRenamer
                     processDir(ref fileNames, dirPath);
                     rename(fileNames, dirPath, commonName);
 
-                    Console.WriteLine("Do you want to continue?(Y/N) ");
+                    Console.Write("Do you want to continue?(Y/N) ");
                     cont = Console.ReadLine();
                     cont = cont.Trim();
                     if (cont.ToUpper().Equals("N"))
                         repeat = false;
 
+                    Console.WriteLine("-------------------------------------------");
                 }
             }
             else if (argNum ==  1)
