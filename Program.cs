@@ -53,7 +53,7 @@ namespace FileRenamer
                 ext = Path.GetExtension(fileNames[i]);
 
                 //creates the files new name.
-                name = commonName + count.ToString("D6");
+                name = commonName + count.ToString("D5");
 
                 //test to see if the file already has that name if it does then skips.
                 if (Path.GetFileNameWithoutExtension(fileNames[i]).Equals(name))
@@ -63,29 +63,25 @@ namespace FileRenamer
                 }
                 else
                 {
-                    temp = count;    
                     //check to see if this file name will conflict with anyother file name if it does gives it a new name.
                     for (int j = 0; j < fileNames.Count; j++)
                     {
                         if (name.Equals(Path.GetFileNameWithoutExtension(fileNames[j])))
                         {
                             count++;
-                            name = commonName + count.ToString("D6");
+                            name = commonName + count.ToString("D5");
                             j = 0;
                         }
                     }
 
 
                     //puts in full name path and move the file via copy and delete
-                    name = path + '\\' + commonName + count.ToString("D6") + ext;
+                    name = path + '\\' + commonName + count.ToString("D5") + ext;
                     File.Copy(fileNames[i], name);
                     File.Delete(fileNames[i]);
                     fileNames[i] = name;
-                    fileNames.Sort();
-
-                    count = temp;
+                    
                     count++;
-
                 }
             }
             Console.WriteLine("Rename Complete.");
@@ -94,35 +90,43 @@ namespace FileRenamer
         static int Main(string[] args)
         {
             List<string> fileNames = new List<string>();
-            string dirPath, commonName;
+            string dirPath, commonName, cont;
             int argNum = argCheck(args);
 
 
             if (argNum == 0)
             {
-                Console.Write("Enter the directory Path: ");
-                dirPath = Console.ReadLine();
+                bool repeat = true;
 
-                //If the user enters nothing program uses the directory that the exe is in.
-                if (string.IsNullOrWhiteSpace(dirPath))
-                    dirPath = Directory.GetCurrentDirectory();
-
-                //checks to make sure that the directory exists.
-                else if(!Directory.Exists(dirPath))
+                while (repeat == true)
                 {
-                    Console.WriteLine("Directory does not exist.");
-                    return 1;
+                    Console.Write("Enter the directory Path: ");
+                    dirPath = Console.ReadLine();
+
+                    //If the user enters nothing program uses the directory that the exe is in.
+                    if (string.IsNullOrWhiteSpace(dirPath))
+                        dirPath = Directory.GetCurrentDirectory();
+
+                    //checks to make sure that the directory exists.
+                    else if (!Directory.Exists(dirPath))
+                    {
+                        Console.WriteLine("Directory does not exist.");
+                        return 1;
+                    }
+
+                    Console.Write("Enter the common name: ");
+                    commonName = Console.ReadLine();
+
+                    processDir(ref fileNames, dirPath);
+                    rename(fileNames, dirPath, commonName);
+
+                    Console.WriteLine("Do you want to continue?(Y/N) ");
+                    cont = Console.ReadLine();
+                    cont = cont.Trim();
+                    if (cont.ToUpper().Equals("N"))
+                        repeat = false;
+
                 }
-
-                Console.Write("Enter the common name: ");
-                commonName = Console.ReadLine();
-
-                processDir(ref fileNames, dirPath);
-                rename(fileNames, dirPath, commonName);
-
-                Console.WriteLine("Press Any key to exit.");
-                Console.ReadKey();
-
             }
             else if (argNum ==  1)
             {
