@@ -46,7 +46,7 @@ namespace FileRenamer
         static void rename(List<string> fileNames, string path, string commonName)
         {
             string name, ext;
-            int count = 1;
+            int count = 1, temp;
 
             for(int i = 0; i < fileNames.Count; i++)
             {
@@ -61,25 +61,32 @@ namespace FileRenamer
                     count++;
                     continue;
                 }
-
-                //check to see if this file name will conflict with anyother file name if it does gives it a new name.
-                for(int j = 0; j < fileNames.Count; j++)
+                else
                 {
-                    if (!name.Equals(Path.GetFileNameWithoutExtension(fileNames[j])))
-                        break;
-                    else
+                    temp = count;    
+                    //check to see if this file name will conflict with anyother file name if it does gives it a new name.
+                    for (int j = 0; j < fileNames.Count; j++)
                     {
-                        count++;
-                        name = commonName + count.ToString("D6");
+                        if (name.Equals(Path.GetFileNameWithoutExtension(fileNames[j])))
+                        {
+                            count++;
+                            name = commonName + count.ToString("D6");
+                            j = 0;
+                        }
                     }
-                }
 
-                //puts in full name path and move the file via copy and delete
-                name = path + '\\' + commonName + count.ToString("D6") + ext;
-                File.Copy(fileNames[i], name);
-                File.Delete(fileNames[i]);
-                
-                count++;
+
+                    //puts in full name path and move the file via copy and delete
+                    name = path + '\\' + commonName + count.ToString("D6") + ext;
+                    File.Copy(fileNames[i], name);
+                    File.Delete(fileNames[i]);
+                    fileNames[i] = name;
+                    fileNames.Sort();
+
+                    count = temp;
+                    count++;
+
+                }
             }
             Console.WriteLine("Rename Complete.");
         }
