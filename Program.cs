@@ -75,10 +75,6 @@ namespace FileRenamer
                             File.Copy(fileNames[j],tempName);
                             File.Delete(fileNames[j]);
                             fileNames[j] = tempName;
-
-                            //count++;
-                            //name = commonName + count.ToString("D5");
-                            //j = 0;
                         }
                     }
 
