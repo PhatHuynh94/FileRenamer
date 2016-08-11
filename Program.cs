@@ -46,7 +46,7 @@ namespace FileRenamer
         static void rename(List<string> fileNames, string path, string commonName)
         {
             string name, ext;
-            int count = 1, temp;
+            int count = 1;
 
             for(int i = 0; i < fileNames.Count; i++)
             {
