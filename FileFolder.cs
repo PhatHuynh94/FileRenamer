@@ -52,7 +52,22 @@ namespace FileFolder
             for(int i = 0; i < NumberOfItems; i++)
             {
                 newName = commonName + "_" + (i+1).ToString(digitCount);
-                ImageList[i].RenameFile(newName);
+
+                if (!ImageList[i].FileName.Equals(newName))
+                {
+                    bool fileExist = ImageList[i].RenameFile(newName);
+
+                    //if a file with the new names already exist renames the file.
+                    if (fileExist)
+                    {
+                        for (int j = i + 1; j < NumberOfItems; j++)
+                        {
+                            if (ImageList[j].FileName.Equals(newName))
+                                ImageList[j].RenameFile(newName + "$(Copy)");
+
+                        }
+                    }
+                }
             }
         }
 

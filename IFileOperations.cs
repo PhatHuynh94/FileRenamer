@@ -2,7 +2,7 @@
 {
     interface IFileOperations
     {
-        void RenameFile(string newName);
+        bool RenameFile(string newName);
         void ChangeExtension(string newExtension);
         void ChangeLastModifiedDate();
     }

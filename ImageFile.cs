@@ -42,17 +42,27 @@ namespace FileFolder
             LastModifiedDate = DateTime.Now;
         }
 
-        public void RenameFile(string newName)
+        public bool RenameFile(string newName)
         {
             string newFilePath = FileDirectory + "\\" + newName + FileExtension;
-            
-            File.Copy(FullFilePath, newFilePath);
-            System.GC.Collect();
-            System.GC.WaitForPendingFinalizers();
-            File.Delete(FullFilePath);
-            FullFilePath = newFilePath;
-            FileName = newName;
-            LastModifiedDate = DateTime.Now;
+
+            if (File.Exists(newFilePath))
+                return false;
+            else
+            {
+                //changing file name via copy and delete
+                File.Copy(FullFilePath, newFilePath);
+                System.GC.Collect();
+                System.GC.WaitForPendingFinalizers();
+                File.Delete(FullFilePath);
+
+                //updating new file information
+                FullFilePath = newFilePath;
+                FileName = newName;
+                LastModifiedDate = DateTime.Now;
+
+                return true;
+            }
         }
 
         public int CompareTo(ImageFile file)
@@ -61,33 +71,6 @@ namespace FileFolder
                 return 1;
             else
                 return this.LastModifiedDate.CompareTo(file.LastModifiedDate);
-        }
-
-        //test to see if file is locked
-        protected virtual bool IsFileLocked(FileInfo file)
-        {
-            FileStream stream = null;
-
-            try
-            {
-                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
-            }
-            catch (IOException)
-            {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return true;
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-            }
-
-            //file is not locked
-            return false;
         }
     }
 }
