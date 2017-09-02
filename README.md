@@ -10,11 +10,11 @@ If using via command line method:
   - If -path is not used the program will rename all files in the same directory as the program.
 
 examples:
-FileRename -name "Hello World"
-FileRename -path C:\blah -name "Red Rocket"
+- FileRename -name "Hello World"
+- FileRename -path C:\blah -name "Red Rocket"
 
 Note: if using via command line it is recommemded to put quotation marks around directory path and common name.
 
 The string comparison algorithm used for the program can be found here: 
-https://www.codeproject.com/Articles/11016/Numeric-String-Sort-in-C
-This allowed the program to replicate the sorting algorithm used by windows directory.
+- https://www.codeproject.com/Articles/11016/Numeric-String-Sort-in-C
+- This allowed the program to replicate the sorting algorithm used by windows directory.
