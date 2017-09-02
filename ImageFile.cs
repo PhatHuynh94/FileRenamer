@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System.Drawing;
+using ns;
 
 namespace FileFolder
 {
@@ -70,7 +71,7 @@ namespace FileFolder
             if (file == null)
                 return 1;
             else
-                return this.LastModifiedDate.CompareTo(file.LastModifiedDate);
+                return StringLogicalComparer.Compare(this.FileName, file.FileName);
         }
     }
 }

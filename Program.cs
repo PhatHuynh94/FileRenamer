@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 
+
 namespace FileFolder
 {
     class Program
@@ -24,6 +25,14 @@ namespace FileFolder
                 return -1;
         }
 
+        
+        static void DisplayFilesName(ImageFolder folder)
+        {
+            Console.WriteLine("-------------------------------------------");
+            foreach (ImageFile f in folder.GetImageList())
+                Console.WriteLine(f.FileName+f.FileExtension);
+            Console.WriteLine("-------------------------------------------");
+        }
         
         static void Main(string[] args)
         {
@@ -52,12 +61,16 @@ namespace FileFolder
                     }
 
                     folder = new ImageFolder(dirPath);
+                    
+                    DisplayFilesName(folder);
 
                     Console.Write("Enter the common name: ");
                     commonName = Console.ReadLine();
-
-                   
                     folder.RenameFiles(commonName);
+
+                    folder = null;
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
 
                     Console.Write("Do you want to continue?(Y/N) ");
                     cont = Console.ReadLine();

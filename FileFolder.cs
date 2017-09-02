@@ -5,7 +5,7 @@ namespace FileFolder
 {
     public class ImageFolder : IFolderOperations
     {
-        public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG", ".TIFF", ".TIF" };
+        public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".JPEG", ".BMP", ".GIF", ".PNG", ".TIFF", ".TIF" };
         public string FolderPath { get; protected set; }
         public int NumberOfItems { get; private set; }
         private List<ImageFile> ImageList;
@@ -20,7 +20,8 @@ namespace FileFolder
                 if (ImageExtensions.Contains(Path.GetExtension(s).ToUpperInvariant()))
                     ImageList.Add(new ImageFile(s));
             }
-        
+
+            ImageList.Sort();
             NumberOfItems = ImageList.Count;
         }
 
@@ -35,6 +36,7 @@ namespace FileFolder
                     ImageList.Add(new ImageFile(s));
             }
 
+            ImageList.Sort();
             NumberOfItems = ImageList.Count;
         }
 
@@ -42,6 +44,11 @@ namespace FileFolder
         {
             ImageList = null;
             FolderPath = null;
+        }
+
+        public List<ImageFile> GetImageList()
+        {
+            return ImageList;
         }
 
         public void RenameFiles(string commonName)
@@ -81,7 +88,7 @@ namespace FileFolder
 
         public void SortByLastModifiedDate()
         {
-            ImageList.Sort();
+            ImageList.Sort((x, y) => x.LastModifiedDate.CompareTo(y.LastModifiedDate));
         }
 
         public void SortByCreatedDate()
