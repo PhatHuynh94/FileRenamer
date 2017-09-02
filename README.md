@@ -5,8 +5,8 @@ If using normal execution method:
 
 If using via command line method:
   - There are two commands -name and -path:
-    -name is the common name for the files. Needs to be used while excuting program
-    -path is the directory path. Does not need to be used while excuting program
+    - -name is the common name for the files. Needs to be used while excuting program
+    - -path is the directory path. Does not need to be used while excuting program
   - If -path is not used the program will rename all files in the same directory as the program.
 
 examples:
