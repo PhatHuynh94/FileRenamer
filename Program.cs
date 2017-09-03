@@ -34,10 +34,67 @@ namespace FileFolder
             Console.WriteLine("-------------------------------------------");
         }
         
+        static string GetDirectory()
+        {
+            Console.Write("Enter the directory Path(Leave blank to use the current directory): ");
+            string dirPath = Console.ReadLine();
+
+            //If the user enters nothing program uses the directory that the exe is in.
+            if (string.IsNullOrWhiteSpace(dirPath))
+                dirPath = Directory.GetCurrentDirectory();
+
+            //checks to make sure that the directory exists.
+            else if (!Directory.Exists(dirPath))
+            {
+                throw new DirectoryNotFoundException("Directory does not exist.");
+            }
+
+            return dirPath;
+        }
+
+        static int GetSortOptions()
+        {
+            char sortOption;
+            int choice = 0;
+
+            do
+            {
+                Console.WriteLine("1 - Sort By File Name");
+                Console.WriteLine("2 - Sort By Last Modified Date");
+                Console.WriteLine("3 - Sort By Created Date");
+                Console.Write("Please Choose an Option: ");
+                sortOption = Console.ReadKey().KeyChar;
+                choice = Convert.ToInt32(sortOption);
+                Console.Write("\n");
+            }
+            while (choice < 1 && choice > 3);
+
+            return choice;
+        }
+
+
+        static void SortAndRename(int sortOption, ImageFolder folder)
+        {
+            if(sortOption == 2)
+            {
+                folder.SortByLastModifiedDate();
+                DisplayFilesName(folder);
+            }
+            else if(sortOption == 3)
+            {
+                folder.SortByCreatedDate();
+                DisplayFilesName(folder);
+            }
+
+            Console.Write("Enter the common name: ");
+            string commonName = Console.ReadLine();
+            folder.RenameFiles(commonName);
+        }
+
         static void Main(string[] args)
         {
             ImageFolder folder;
-            string dirPath, commonName, cont;
+            string dirPath;
             int argNum = argCheck(args);
 
 
@@ -47,33 +104,23 @@ namespace FileFolder
 
                 while (repeat == true)
                 {
-                    Console.Write("Enter the directory Path(Leave blank to use the current directory): ");
-                    dirPath = Console.ReadLine();
-                    
-                    //If the user enters nothing program uses the directory that the exe is in.
-                    if (string.IsNullOrWhiteSpace(dirPath))
-                        dirPath = Directory.GetCurrentDirectory();
-
-                    //checks to make sure that the directory exists.
-                    else if (!Directory.Exists(dirPath))
-                    {
-                        throw new DirectoryNotFoundException("Directory does not exist.");
-                    }
+                    dirPath = GetDirectory();
 
                     folder = new ImageFolder(dirPath);
                     
                     DisplayFilesName(folder);
 
-                    Console.Write("Enter the common name: ");
-                    commonName = Console.ReadLine();
-                    folder.RenameFiles(commonName);
+                    int sortOption = GetSortOptions();
 
+                    SortAndRename(sortOption, folder);
+
+                    //clean up after done renaming folder
                     folder = null;
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
 
-                    Console.Write("Do you want to continue?(Y/N) ");
-                    cont = Console.ReadLine();
+                    Console.Write("Do you want to continue?(Y/N): ");
+                    string cont = Console.ReadLine();
                     cont = cont.Trim();
                     if (cont.ToUpper().Equals("N"))
                         repeat = false;
