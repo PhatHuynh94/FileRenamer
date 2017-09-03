@@ -1,0 +1,18 @@
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe.config
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\bin\Debug\FileRenamer.pdb
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\obj\Debug\FileRenamer.csprojResolveAssemblyReference.cache
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\obj\Debug\FileRenamer.exe
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\obj\Debug\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe.config
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\bin\Debug\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\obj\Debug\FileRenamer.csprojResolveAssemblyReference.cache
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\obj\Debug\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\obj\Debug\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe.config
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\bin\Debug\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\bin\Debug\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\obj\Debug\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\obj\Debug\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\bin\Debug\NumericComparer.dll

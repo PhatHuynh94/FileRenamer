@@ -1,0 +1,21 @@
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\bin\Release\FileRenamer.exe.config
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\bin\Release\FileRenamer.exe
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\bin\Release\FileRenamer.pdb
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.exe
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.pdb
+C:\Users\Phat Huynh\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.csprojResolveAssemblyReference.cache
+C:\Users\phath\Dropbox\Projects\FileRenamer\FileRenamer\bin\Release\FileRenamer.exe.config
+C:\Users\phath\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.exe
+C:\Users\phath\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\bin\Release\FileRenamer.exe.config
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\bin\Release\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\bin\Release\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.csprojResolveAssemblyReference.cache
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\FileRenamer\FileRenamer\obj\Release\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\bin\Release\FileRenamer.exe.config
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\bin\Release\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\bin\Release\FileRenamer.pdb
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\obj\Release\FileRenamer.csprojResolveAssemblyReference.cache
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\obj\Release\FileRenamer.exe
+C:\Users\Home\Dropbox\Projects\Personal\FileRenamer\FileRenamer\obj\Release\FileRenamer.pdb
