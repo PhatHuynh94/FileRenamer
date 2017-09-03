@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.IO;
 
-namespace FileRenamer
+
+namespace FileFolder
 {
     class Program
     {
-
        static int argCheck(string[] args) 
        {
             //if the file is executed by itself
@@ -29,75 +25,18 @@ namespace FileRenamer
                 return -1;
         }
 
-        static void processDir(ref List<string> fileNames, string dirPath)
+        
+        static void DisplayFilesName(ImageFolder folder)
         {
-            //gets all file names in the current directory and puts it into a list
-            fileNames = Directory.GetFiles(dirPath).ToList();
-
-            //looks for the program and if it is the folder delete it from the list
-            string programName = dirPath + "\\FileRenamer.exe";
-            if(File.Exists(programName))
-                fileNames.Remove(programName);
-
-            fileNames.Sort();
-
-            //count the files in at the start of the process
-            Console.WriteLine("There are {0} file(s) in the folder", fileNames.Count);
+            Console.WriteLine("-------------------------------------------");
+            foreach (ImageFile f in folder.GetImageList())
+                Console.WriteLine(f.FileName+f.FileExtension);
+            Console.WriteLine("-------------------------------------------");
         }
-
-        static void rename(List<string> fileNames, string path, string commonName)
+        
+        static void Main(string[] args)
         {
-            string name, ext, tempName;
-            int count = 1;
-
-            for(int i = 0; i < fileNames.Count; i++)
-            {
-                ext = Path.GetExtension(fileNames[i]);
-
-                //creates the files new name.
-                name = commonName + count.ToString("D5");
-
-                //test to see if the file already has that name if it does then skips.
-                if (Path.GetFileNameWithoutExtension(fileNames[i]).Equals(name))
-                {
-                    count++;
-                    continue;
-                }
-                else
-                {
-                    //check to see if this file name will conflict with any other file name.
-                    //if there is conflict it will rename the other file temporarily
-                    for (int j = 0; j < fileNames.Count; j++)
-                    {
-                        if (name.Equals(Path.GetFileNameWithoutExtension(fileNames[j])))
-                        {
-                            tempName = path + '\\' + Path.GetFileNameWithoutExtension(fileNames[j]) + "(copy)" + Path.GetExtension(fileNames[j]);
-                            File.Copy(fileNames[j],tempName);
-                            File.Delete(fileNames[j]);
-                            fileNames[j] = tempName;
-
-                            //count++;
-                            //name = commonName + count.ToString("D5");
-                            //j = 0;
-                        }
-                    }
-
-
-                    //puts in full name path and move the file via copy and delete
-                    name = path + '\\' + commonName + count.ToString("D5") + ext;
-                    File.Copy(fileNames[i], name);
-                    File.Delete(fileNames[i]);
-                    fileNames[i] = name;
-                    
-                    count++;
-                }
-            }
-            Console.WriteLine("Rename Complete.");
-        }
-
-        static int Main(string[] args)
-        {
-            List<string> fileNames = new List<string>();
+            ImageFolder folder;
             string dirPath, commonName, cont;
             int argNum = argCheck(args);
 
@@ -108,15 +47,9 @@ namespace FileRenamer
 
                 while (repeat == true)
                 {
-                    Console.Write("Enter the directory Path: ");
+                    Console.Write("Enter the directory Path(Leave blank to use the current directory): ");
                     dirPath = Console.ReadLine();
-
-                    if(!Directory.Exists(dirPath))
-                    {
-                        Console.WriteLine("Directory does not exist. Please try Again.");
-                        continue;
-                    }
-
+                    
                     //If the user enters nothing program uses the directory that the exe is in.
                     if (string.IsNullOrWhiteSpace(dirPath))
                         dirPath = Directory.GetCurrentDirectory();
@@ -124,15 +57,20 @@ namespace FileRenamer
                     //checks to make sure that the directory exists.
                     else if (!Directory.Exists(dirPath))
                     {
-                        Console.WriteLine("Directory does not exist.");
-                        return 1;
+                        throw new DirectoryNotFoundException("Directory does not exist.");
                     }
+
+                    folder = new ImageFolder(dirPath);
+                    
+                    DisplayFilesName(folder);
 
                     Console.Write("Enter the common name: ");
                     commonName = Console.ReadLine();
+                    folder.RenameFiles(commonName);
 
-                    processDir(ref fileNames, dirPath);
-                    rename(fileNames, dirPath, commonName);
+                    folder = null;
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
 
                     Console.Write("Do you want to continue?(Y/N) ");
                     cont = Console.ReadLine();
@@ -147,23 +85,20 @@ namespace FileRenamer
             {
                 //if the user does not use -path program uses the directory that the exe is in.
                 dirPath = Directory.GetCurrentDirectory();
-                processDir(ref fileNames, dirPath);
-       
-                rename(fileNames, dirPath, args[1]);
 
+                folder = new ImageFolder(dirPath);
+                folder.RenameFiles(args[1]);
             }
             else if(argNum == 2)
             {
-                processDir(ref fileNames, args[1]);
-                rename(fileNames, args[1], args[3]);
+                folder = new ImageFolder(args[1]);
+                folder.RenameFiles(args[3]);
             }
             else
             {
                 //error exit
-                Console.WriteLine("Error. Invalid Arguments or Directory does not exist");
-                return 1;
+                throw new ArgumentException("Error. Invalid Arguments or Directory does not exist");
             }
-            return 0;
         }
     }
 }
